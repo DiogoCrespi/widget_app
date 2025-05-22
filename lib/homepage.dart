@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
     {
       'titulo': 'Tecnologia: Novidades',
       'descricao':
-      'Novos lançamentos de smartphones prometem revolucionar o mercado.',
+      'Novos lançamentos de smartphones.',
       'imagem': 'https://picsum.photos/600/180?3',
     },
   ];
@@ -118,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                   // Melhora a acessibilidade do card de notícia
                   child: Semantics(
                     label: 'Card de notícia',
-                    hint: isFirst ? 'Toque para expandir ou recolher' : null,
+                    hint: 'Toque para expandir ou recolher',
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 600),
                       margin: const EdgeInsets.symmetric(
