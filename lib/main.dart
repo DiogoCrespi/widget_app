@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:widget_app/DemoPage.dart';
 import 'package:widget_app/homepage.dart';
 import 'package:widget_app/newsdetailspage.dart';
 
@@ -54,7 +55,8 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       themeMode: _themeMode,
-      home: HomePage(onToggleTheme: _toggleTheme, themeMode: _themeMode),
+      home: DemoPage(),
+      //HomePage(onToggleTheme: _toggleTheme, themeMode: _themeMode),
     );
   }
 }
