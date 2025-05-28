@@ -76,13 +76,15 @@ class _SemanticsDemoPageState extends State<SemanticsDemoPage> {
 
                     // Botão com Semantics
                     Semantics(
-                      label: 'Botão contador',
+                      container: true,
+                      label: 'Botão contador. Contador atual: $_clickCount',
                       hint: _buttonEnabled
                           ? 'Clique para incrementar o contador'
                           : 'Botão desativado',
-                      value: 'Contador atual: $_clickCount',
+                      value: '$_clickCount',
                       enabled: _buttonEnabled,
                       button: true,
+                      excludeSemantics: true,
                       child: ElevatedButton.icon(
                         onPressed: _buttonEnabled ? _increment : null,
                         style: ElevatedButton.styleFrom(
