@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:widget_app/DemoPage.dart';
 
 class NavigatorWidgetPage extends StatelessWidget {
   const NavigatorWidgetPage({super.key});
@@ -54,10 +55,11 @@ class RecipeListPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => RecipeDetailPage(
-                      title: recipe['title']!,
-                      description: recipe['description']!,
-                    ),
+                    builder:
+                        (context) => RecipeDetailPage(
+                          title: recipe['title']!,
+                          description: recipe['description']!,
+                        ),
                   ),
                 );
               },
@@ -67,10 +69,17 @@ class RecipeListPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         icon: const Icon(Icons.home),
-        label: const Text('Voltar ao Início'),
+        label: const Text('Voltar ao Menu'),
         onPressed: () {
           // Exemplo de popUntil - volta até a raiz da navegação
-          Navigator.popUntil(context, (route) => route.isFirst);
+          // Navigator.popUntil(context, (route) => route.isFirst);
+
+          // Navegação para o menu principal, substituindo toda a pilha de navegação
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const DemoPage()),
+            (route) => false,
+          );
         },
       ),
     );
@@ -87,7 +96,10 @@ class RecipeDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(title ?? 'Detalhes da Receita')),
+      appBar: AppBar(
+        title: Text(title ?? 'Detalhes da Receita'),
+        automaticallyImplyLeading: false,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
