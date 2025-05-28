@@ -38,47 +38,61 @@ class _ColumnWidgetPageState extends State<ColumnWidgetPage> {
                       children: const [
                         Icon(Icons.settings, color: Colors.deepPurple),
                         SizedBox(width: 8),
-                        Text('Configurações', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                        Text(
+                          'Configurações',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ],
                     ),
                     const Divider(),
 
                     DropdownButton<MainAxisAlignment>(
                       value: _mainAxisAlignment,
-                      onChanged: (value) => setState(() => _mainAxisAlignment = value!),
+                      onChanged:
+                          (value) =>
+                              setState(() => _mainAxisAlignment = value!),
                       isExpanded: true,
-                      items: MainAxisAlignment.values.map((e) {
-                        return DropdownMenuItem(
-                          value: e,
-                          child: Text('mainAxisAlignment: ${e.name}'),
-                        );
-                      }).toList(),
+                      items:
+                          MainAxisAlignment.values.map((e) {
+                            return DropdownMenuItem(
+                              value: e,
+                              child: Text('mainAxisAlignment: ${e.name}'),
+                            );
+                          }).toList(),
                     ),
                     const SizedBox(height: 8),
 
                     DropdownButton<CrossAxisAlignment>(
                       value: _crossAxisAlignment,
-                      onChanged: (value) => setState(() => _crossAxisAlignment = value!),
+                      onChanged:
+                          (value) =>
+                              setState(() => _crossAxisAlignment = value!),
                       isExpanded: true,
-                      items: CrossAxisAlignment.values.map((e) {
-                        return DropdownMenuItem(
-                          value: e,
-                          child: Text('crossAxisAlignment: ${e.name}'),
-                        );
-                      }).toList(),
+                      items:
+                          CrossAxisAlignment.values.map((e) {
+                            return DropdownMenuItem(
+                              value: e,
+                              child: Text('crossAxisAlignment: ${e.name}'),
+                            );
+                          }).toList(),
                     ),
                     const SizedBox(height: 8),
 
                     DropdownButton<MainAxisSize>(
                       value: _mainAxisSize,
-                      onChanged: (value) => setState(() => _mainAxisSize = value!),
+                      onChanged:
+                          (value) => setState(() => _mainAxisSize = value!),
                       isExpanded: true,
-                      items: MainAxisSize.values.map((e) {
-                        return DropdownMenuItem(
-                          value: e,
-                          child: Text('mainAxisSize: ${e.name}'),
-                        );
-                      }).toList(),
+                      items:
+                          MainAxisSize.values.map((e) {
+                            return DropdownMenuItem(
+                              value: e,
+                              child: Text('mainAxisSize: ${e.name}'),
+                            );
+                          }).toList(),
                     ),
                   ],
                 ),
@@ -105,6 +119,10 @@ class _ColumnWidgetPageState extends State<ColumnWidgetPage> {
                   mainAxisAlignment: _mainAxisAlignment,
                   crossAxisAlignment: _crossAxisAlignment,
                   mainAxisSize: _mainAxisSize,
+                  textBaseline:
+                      _crossAxisAlignment == CrossAxisAlignment.baseline
+                          ? TextBaseline.alphabetic
+                          : null,
                   children: [
                     _colorBox('Container 1', Colors.red),
                     _colorBox('Container 2', Colors.green),
