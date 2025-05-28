@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
     {
       'titulo': 'Tecnologia: Novidades',
       'descricao':
-      'Novos lançamentos de smartphones prometem revolucionar o mercado.',
+      'Novos lançamentos de smartphones.',
       'imagem': 'https://picsum.photos/600/180?3',
     },
   ];
@@ -65,9 +65,6 @@ class _HomePageState extends State<HomePage> {
           // 2. Categoria: Layout
           // Widget: Column
           // Organização vertical dos elementos da tela
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -122,10 +119,8 @@ class _HomePageState extends State<HomePage> {
                   child: Semantics(
                     label: 'Card de notícia',
                     hint: isFirst ? 'Toque para expandir ou recolher' : null,
-                    enabled: true,
                     child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 2000),
-                      curve: Curves.easeInOut,
+                      duration: const Duration(milliseconds: 600),
                       margin: const EdgeInsets.symmetric(
                         horizontal: 16,
                         vertical: 8,

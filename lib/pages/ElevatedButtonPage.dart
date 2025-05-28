@@ -54,23 +54,27 @@ class _ElevatedButtonPageState extends State<ElevatedButtonPage> {
         vertical: 8.0 + _random.nextInt(20),
       );
 
-      // Escolher texto e ícone aleatoriamente
       final text = _texts[_random.nextInt(_texts.length)];
       final icon = _icons[_random.nextInt(_icons.length)];
 
-      // Alternar entre só texto, só ícone ou texto+ícone
       final choice = _random.nextInt(3);
       if (choice == 0) {
-        _child = Text(text);
+        _child = Text(
+          text,
+          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.white),
+        );
       } else if (choice == 1) {
-        _child = Icon(icon, color: Colors.white);
+        _child = Icon(icon, color: Colors.white, size: 24);
       } else {
         _child = Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: Colors.white),
-            const SizedBox(width: 8),
-            Text(text),
+            Icon(icon, color: Colors.white, size: 24),
+            const SizedBox(width: 10),
+            Text(
+              text,
+              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.white),
+            ),
           ],
         );
       }
@@ -81,34 +85,88 @@ class _ElevatedButtonPageState extends State<ElevatedButtonPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Demonstração: ElevatedButton')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Text(
               'Clique no botão para aleatorizar o estilo:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: _backgroundColor,
-                elevation: _elevation,
-                padding: _padding,
-                shape: RoundedRectangleBorder(borderRadius: _borderRadius),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
               ),
-              onPressed: _randomizeStyle,
-              child: _child,
+            ),
+            const SizedBox(height: 30),
+            Center(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _backgroundColor,
+                  elevation: _elevation,
+                  padding: _padding,
+                  shape: RoundedRectangleBorder(borderRadius: _borderRadius),
+                ),
+                onPressed: _randomizeStyle,
+                child: _child,
+              ),
             ),
             const SizedBox(height: 40),
-            Text('Cor de fundo: ${_backgroundColor.toString()}'),
-            Text('Elevação: ${_elevation.toStringAsFixed(2)}'),
-            Text('Raio da borda: ${(_borderRadius as BorderRadius).topLeft.x.toStringAsFixed(2)}'),
-            Text('Padding horizontal: ${(_padding as EdgeInsets).horizontal.toStringAsFixed(2)}'),
-            Text('Padding vertical: ${(_padding as EdgeInsets).vertical.toStringAsFixed(2)}'),
+            Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              color: Colors.grey.shade100,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _infoRow('Cor de fundo:', _colorToHex(_backgroundColor)),
+                    const SizedBox(height: 12),
+                    _infoRow('Elevação:', _elevation.toStringAsFixed(2)),
+                    const SizedBox(height: 12),
+                    _infoRow('Raio da borda:', (_borderRadius as BorderRadius).topLeft.x.toStringAsFixed(2)),
+                    const SizedBox(height: 12),
+                    _infoRow('Padding horizontal:', (_padding as EdgeInsets).horizontal.toStringAsFixed(2)),
+                    const SizedBox(height: 12),
+                    _infoRow('Padding vertical:', (_padding as EdgeInsets).vertical.toStringAsFixed(2)),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  Widget _infoRow(String label, String value) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 3,
+          child: Text(
+            label,
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+          ),
+        ),
+        Expanded(
+          flex: 2,
+          child: Text(
+            value,
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey.shade700,
+              fontFeatures: const [FontFeature.tabularFigures()],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  String _colorToHex(Color color) {
+    return '#${color.value.toRadixString(16).padLeft(8, '0').toUpperCase()}';
   }
 }

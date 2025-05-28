@@ -43,53 +43,67 @@ class _CupertinoButtonPageState extends State<CupertinoButtonPage> {
     return Scaffold(
       appBar: AppBar(title: const Text('Demonstração: CupertinoButton')),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Text(
-              'Propriedades principais:',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              'Propriedades principais',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
             ),
-            const SizedBox(height: 12),
-
-            Text(
-              'child (texto): $_buttonText',
-              style: const TextStyle(fontSize: 16),
-            ),
-            Text(
-              'color: ${_buttonColor == null ? "Transparente (padrão)" : _buttonColor.toString()}',
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 24),
-
+            const SizedBox(height: 16),
+            _infoRow('child (texto):', _buttonText),
+            const SizedBox(height: 8),
+            _infoRow('color:', _buttonColor == null ? 'Transparente (padrão)' : _colorToName(_buttonColor!)),
+            const SizedBox(height: 40),
             Center(
               child: CupertinoButton(
                 color: _buttonColor,
-                child: Text(_buttonText),
+                child: Text(
+                  _buttonText,
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
                 onPressed: () {
                   _showSnackBar(context);
                   _randomize();
                 },
               ),
             ),
-
-            const SizedBox(height: 24),
-            const Text(
-              'Boas práticas:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              '• Utilize cores que sigam o estilo iOS para manter consistência.\n'
-                  '• Use textos claros e objetivos no botão.\n'
-                  '• Forneça feedback visual imediato (ex: SnackBar) para confirmar a ação.\n'
-                  '• Evite usar cor em botões secundários para não confundir o usuário.',
-              style: TextStyle(fontSize: 16),
-            ),
           ],
         ),
       ),
     );
+  }
+
+  Widget _infoRow(String label, String value) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 3,
+          child: Text(
+            label,
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 17),
+          ),
+        ),
+        Expanded(
+          flex: 4,
+          child: Text(
+            value,
+            style: TextStyle(fontSize: 17, color: Colors.grey.shade700),
+          ),
+        ),
+      ],
+    );
+  }
+
+  static String _colorToName(Color color) {
+    if (color == CupertinoColors.activeBlue) return 'Active Blue';
+    if (color == CupertinoColors.activeGreen) return 'Active Green';
+    if (color == CupertinoColors.destructiveRed) return 'Destructive Red';
+    return color.toString();
   }
 }
