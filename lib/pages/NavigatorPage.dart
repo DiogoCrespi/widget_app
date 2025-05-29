@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:widget_app/DemoPage.dart';
+
+void main() {
+  runApp(const NavigatorWidgetPage());
+}
 
 class NavigatorWidgetPage extends StatelessWidget {
   const NavigatorWidgetPage({super.key});
@@ -8,12 +11,30 @@ class NavigatorWidgetPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Demo Navigator',
-      // Rotas nomeadas
-      routes: {
-        '/': (context) => const RecipeListPage(),
-        '/details': (context) => const RecipeDetailPage(),
-      },
       initialRoute: '/',
+      onGenerateRoute: (settings) {
+        if (settings.name == '/') {
+          return MaterialPageRoute(
+            settings: const RouteSettings(name: '/'),
+            builder: (_) => const RecipeListPage(),
+          );
+        } else if (settings.name == '/details') {
+          final args = settings.arguments as Map<String, String>;
+          return MaterialPageRoute(
+            settings: const RouteSettings(name: '/details'),
+            builder: (_) => RecipeDetailPage(
+              title: args['title'],
+              description: args['description'],
+            ),
+          );
+        } else if (settings.name == '/about') {
+          return MaterialPageRoute(
+            settings: const RouteSettings(name: '/about'),
+            builder: (_) => const RecipeAboutPage(),
+          );
+        }
+        return null;
+      },
     );
   }
 }
@@ -51,16 +72,13 @@ class RecipeListPage extends StatelessWidget {
             child: ListTile(
               title: Text(recipe['title']!),
               onTap: () {
-                // Navegação passando dados usando push
-                Navigator.push(
+                Navigator.pushNamed(
                   context,
-                  MaterialPageRoute(
-                    builder:
-                        (context) => RecipeDetailPage(
-                          title: recipe['title']!,
-                          description: recipe['description']!,
-                        ),
-                  ),
+                  '/details',
+                  arguments: {
+                    'title': recipe['title']!,
+                    'description': recipe['description']!,
+                  },
                 );
               },
             ),
@@ -68,18 +86,10 @@ class RecipeListPage extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
-        icon: const Icon(Icons.home),
-        label: const Text('Voltar ao Menu'),
+        icon: const Icon(Icons.info_outline),
+        label: const Text('Sobre'),
         onPressed: () {
-          // Exemplo de popUntil - volta até a raiz da navegação
-          // Navigator.popUntil(context, (route) => route.isFirst);
-
-          // Navegação para o menu principal, substituindo toda a pilha de navegação
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const DemoPage()),
-            (route) => false,
-          );
+          Navigator.pushNamed(context, '/about');
         },
       ),
     );
@@ -96,30 +106,79 @@ class RecipeDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title ?? 'Detalhes da Receita'),
-        automaticallyImplyLeading: false,
-      ),
+      appBar: AppBar(title: Text(title ?? 'Detalhes')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              title ?? 'Sem título',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+            Text(title ?? 'Sem título', style: Theme.of(context).textTheme.headlineSmall),
             const SizedBox(height: 16),
-            Text(
-              description ?? 'Sem descrição disponível.',
-              style: Theme.of(context).textTheme.bodyMedium,
+            Text(description ?? 'Sem descrição.', style: Theme.of(context).textTheme.bodyLarge),
+            const Spacer(),
+            Row(
+              children: [
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.arrow_back),
+                  label: const Text('Voltar'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                const SizedBox(width: 16),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.list),
+                  label: const Text('Voltar p/ Início'),
+                  onPressed: () {
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Tela extra para demonstrar push e pop
+class RecipeAboutPage extends StatelessWidget {
+  const RecipeAboutPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Sobre o App')),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            const Text(
+              'Este é um app demonstrativo de navegação em Flutter.',
+              style: TextStyle(fontSize: 18),
             ),
             const Spacer(),
+            ElevatedButton.icon(
+              icon: const Icon(Icons.receipt_long),
+              label: const Text('Ir para Detalhes de Receita'),
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/details',
+                  arguments: {
+                    'title': 'Receita Demonstração',
+                    'description': 'Criada apenas para testar navegação.',
+                  },
+                );
+              },
+            ),
+            const SizedBox(height: 16),
             ElevatedButton.icon(
               icon: const Icon(Icons.arrow_back),
               label: const Text('Voltar'),
               onPressed: () {
-                Navigator.pop(context); // Voltar para a lista
+                Navigator.pop(context);
               },
             ),
           ],

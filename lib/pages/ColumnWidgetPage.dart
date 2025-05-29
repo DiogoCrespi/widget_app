@@ -48,51 +48,43 @@ class _ColumnWidgetPageState extends State<ColumnWidgetPage> {
                       ],
                     ),
                     const Divider(),
-
                     DropdownButton<MainAxisAlignment>(
                       value: _mainAxisAlignment,
-                      onChanged:
-                          (value) =>
-                              setState(() => _mainAxisAlignment = value!),
+                      onChanged: (value) =>
+                          setState(() => _mainAxisAlignment = value!),
                       isExpanded: true,
-                      items:
-                          MainAxisAlignment.values.map((e) {
-                            return DropdownMenuItem(
-                              value: e,
-                              child: Text('mainAxisAlignment: ${e.name}'),
-                            );
-                          }).toList(),
+                      items: MainAxisAlignment.values.map((e) {
+                        return DropdownMenuItem(
+                          value: e,
+                          child: Text('mainAxisAlignment: ${e.name}'),
+                        );
+                      }).toList(),
                     ),
                     const SizedBox(height: 8),
-
                     DropdownButton<CrossAxisAlignment>(
                       value: _crossAxisAlignment,
-                      onChanged:
-                          (value) =>
-                              setState(() => _crossAxisAlignment = value!),
+                      onChanged: (value) =>
+                          setState(() => _crossAxisAlignment = value!),
                       isExpanded: true,
-                      items:
-                          CrossAxisAlignment.values.map((e) {
-                            return DropdownMenuItem(
-                              value: e,
-                              child: Text('crossAxisAlignment: ${e.name}'),
-                            );
-                          }).toList(),
+                      items: CrossAxisAlignment.values.map((e) {
+                        return DropdownMenuItem(
+                          value: e,
+                          child: Text('crossAxisAlignment: ${e.name}'),
+                        );
+                      }).toList(),
                     ),
                     const SizedBox(height: 8),
-
                     DropdownButton<MainAxisSize>(
                       value: _mainAxisSize,
-                      onChanged:
-                          (value) => setState(() => _mainAxisSize = value!),
+                      onChanged: (value) =>
+                          setState(() => _mainAxisSize = value!),
                       isExpanded: true,
-                      items:
-                          MainAxisSize.values.map((e) {
-                            return DropdownMenuItem(
-                              value: e,
-                              child: Text('mainAxisSize: ${e.name}'),
-                            );
-                          }).toList(),
+                      items: MainAxisSize.values.map((e) {
+                        return DropdownMenuItem(
+                          value: e,
+                          child: Text('mainAxisSize: ${e.name}'),
+                        );
+                      }).toList(),
                     ),
                   ],
                 ),
@@ -107,27 +99,34 @@ class _ColumnWidgetPageState extends State<ColumnWidgetPage> {
             const Divider(),
 
             Expanded(
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  border: Border.all(color: Colors.grey.shade400),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  mainAxisAlignment: _mainAxisAlignment,
-                  crossAxisAlignment: _crossAxisAlignment,
-                  mainAxisSize: _mainAxisSize,
-                  textBaseline:
-                      _crossAxisAlignment == CrossAxisAlignment.baseline
-                          ? TextBaseline.alphabetic
-                          : null,
-                  children: [
-                    _colorBox('Container 1', Colors.red),
-                    _colorBox('Container 2', Colors.green),
-                    _colorBox('Container 3', Colors.blue),
-                  ],
+              child: Center(
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    border: Border.all(
+                      color: _mainAxisSize == MainAxisSize.min
+                          ? Colors.red
+                          : Colors.green,
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    mainAxisAlignment: _mainAxisAlignment,
+                    crossAxisAlignment: _crossAxisAlignment,
+                    mainAxisSize: _mainAxisSize,
+                    textBaseline:
+                    _crossAxisAlignment == CrossAxisAlignment.baseline
+                        ? TextBaseline.alphabetic
+                        : null,
+                    children: [
+                      _textBox('Texto pequeno', 14, Colors.red),
+                      _textBox('Texto médio', 20, Colors.green),
+                      _textBox('Texto grande', 28, Colors.blue),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -137,17 +136,21 @@ class _ColumnWidgetPageState extends State<ColumnWidgetPage> {
     );
   }
 
-  Widget _colorBox(String label, Color color) {
+  Widget _textBox(String text, double fontSize, Color color) {
     return Container(
-      width: 120,
-      height: 40,
       margin: const EdgeInsets.symmetric(vertical: 6),
-      alignment: Alignment.center,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Text(label, style: const TextStyle(color: Colors.white)),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: fontSize,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }
