@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:widget_app/DemoPage.dart';
 
 void main() {
   runApp(const NavigatorWidgetPage());
@@ -86,10 +87,14 @@ class RecipeListPage extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
-        icon: const Icon(Icons.info_outline),
-        label: const Text('Sobre'),
+        icon: const Icon(Icons.home),
+        label: const Text('Início'),
         onPressed: () {
-          Navigator.pushNamed(context, '/about');
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const DemoPage()),
+            (route) => false,
+          );
         },
       ),
     );
@@ -106,7 +111,10 @@ class RecipeDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(title ?? 'Detalhes')),
+      appBar: AppBar(
+        title: Text(title ?? 'Detalhes'),
+        automaticallyImplyLeading: false,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
